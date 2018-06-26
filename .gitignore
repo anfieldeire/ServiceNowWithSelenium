@@ -1,0 +1,6 @@
+/node_modules
+/.vscode
+first_test.js
+selenium-server-standalone-3.12.0.jar
+geckodriver.log
+package-lock.json
