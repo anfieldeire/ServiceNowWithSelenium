@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 import getpass
 
 driver = webdriver.Firefox()
+# Implicitly wait 30 seconds to find elements in DOM
 driver.get("https://afsitsm.service-now.com")
 
 def wait_until_clickable(element, driver, time):
@@ -28,16 +29,16 @@ try:
     username.send_keys("nilabjo.sanyal")
     password.send_keys("san$$yal@@94", Keys.RETURN)
 
-    vipLink = wait_until_clickable("vipOoblink", driver, 30)
-    vipLink.click()
+    home_url = 'https://afsitsm.service-now.com/nav_to.do?uri=%2Fhome.do%3F'
 
-    sendOtpToPhone = wait_until_clickable("vipSend", driver, 5)
-    sendOtpToPhone.click()
+    wait = WebDriverWait(driver, 120)
+    wait.until(lambda driver: driver.current_url == home_url)
 
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "otpInput")))
-    WebDriverWait(driver, 60).until(wait_for_text((By.ID, "otpInput")))
-    vipSubmitOTP = driver.find_element_by_id("vipSubmitOTP")
-    vipSubmitOTP.click()
+    print("Reached service now!")
+
+    # Click 'All' in service requests
+    anchor_all = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//a[@id='471a14136fd64200a907c6012e3ee4bb']")))
+    anchor_all.click()
 
 except Exception as e:
     print(e)
